@@ -10,15 +10,16 @@ import ProtectedRoute from "./ProtectedRoute";
 const userInfoEndpoint = "/auth/userinfo";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-  const [isCheckingUserinfo, setIsCheckingUserinfo] = useState(true);
+  const [isCheckingLoggedInState, setIsCheckingLoggedInState] = useState(true);
 
   useEffect(() => {
-    fetchUserInfo();
+    checkIsLoggedIn();
   }, []);
 
-  const fetchUserInfo = async () => {
-    console.log("fetching user info started");
+  const checkIsLoggedIn = async () => {
+    console.log("Checking logged in status");
     fetch(userInfoEndpoint)
       .then(response => {
         if (response.status !== 200) {
@@ -31,28 +32,27 @@ function App() {
         return response.json();
       })
       .then(jsonData => {
-        console.log(jsonData);
+        setIsLoggedIn(true);
         setUserInfo(jsonData);
-        setIsCheckingUserinfo(false);
+        setIsCheckingLoggedInState(false);
         console.log(userInfo)
-        console.log("fetching user info done");
+        console.log("Checking logged in status complete");
       })
       .catch(error => {
-        setUserInfo(null);
-        setIsCheckingUserinfo(false);
-        console.log("Error fetching user info");
+        setIsCheckingLoggedInState(false);
+        console.log("Error fetching logged in status");
         console.log(error);
       })
   };
 
   return (
     <Router>
-      <Navbar user={userInfo} />
+      <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<LandingPage userInfo={userInfo} />} />
         <Route path="/protected"
           element={
-            <ProtectedRoute user={userInfo} isCheckingUserinfo={isCheckingUserinfo}>
+            <ProtectedRoute isLoggedIn={isLoggedIn} isCheckingLoggedInState={isCheckingLoggedInState}>
               <ProtectedPage />
             </ProtectedRoute>
           } />
