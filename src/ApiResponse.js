@@ -3,45 +3,41 @@ import Button from '@mui/joy/Button';
 import CircularProgress from '@mui/joy/CircularProgress';
 
 import React, { useState, useEffect } from "react";
+import { performGet } from './api/ApiClient';
 import './App.css';
 
-const ApiUrl = window.config.apiPrefix + window.config.itemsEndpoint;
+const apiUrl = window.config.apiPrefix + window.config.itemsEndpoint;
 
 function ApiResponse() {
     const [response, setResponse] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         fetchResponse();
     }, []);
 
-    const fetchResponse = async () => {
+    const fetchResponse = () => {
         setIsFetching(true);
-        fetch(ApiUrl)
+        performGet(apiUrl)
             .then(response => {
-                if (response.status !== 200) {
-                    throw new Error("API returned an error. Status: " 
-                        + response.status 
-                        + "("  
-                        + response.statusText
-                        + ")");
-                }
-                return response.text();
-            })  
-            .then(body => {
-                console.log("Response fetched :");
-                console.log(body);
-                setResponse(body);
+                // Handle the successful response here
+                setResponse(response);
+                setError(null);
             })
             .catch(error => {
-                console.log("Error fetching API");
-                console.log(error);
+                // Handle the error here
+                setResponse([]);
+                setError(error);
             })
-        setIsFetching(false);
+            .finally(() => {
+                setIsFetching(false); // This will be executed regardless of success or error
+            });
     };
 
+
     return (
-        <>  
+        <>
             <Typography level='h6'>Response from API</Typography>
             <br />
             {isFetching ?
@@ -53,6 +49,7 @@ function ApiResponse() {
                     <Button color="primary" variant="outlined" onClick={fetchResponse}>Refresh</Button>
                 </>
             }
+            {error && <p className="error">{error.message}</p>}
         </>
     );
 }
