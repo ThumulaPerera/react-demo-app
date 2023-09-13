@@ -3,7 +3,7 @@ import Button from '@mui/joy/Button';
 import CircularProgress from '@mui/joy/CircularProgress';
 
 import React, { useState, useEffect } from "react";
-import { performGet } from './api/ApiClient';
+import { performGetWithRetry } from './api/ApiClient';
 import './App.css';
 
 const apiUrl = window.config.apiPrefix + window.config.itemsEndpoint;
@@ -19,14 +19,14 @@ function ApiResponse() {
 
     const fetchResponse = () => {
         setIsFetching(true);
-        performGet(apiUrl)
+        setError(null);
+        performGetWithRetry(apiUrl)
             .then(response => {
-                // Handle the successful response here
+                // Handle the successful response
                 setResponse(response);
-                setError(null);
             })
             .catch(error => {
-                // Handle the error here
+                // Handle the error
                 setResponse([]);
                 setError(error);
             })
@@ -34,7 +34,6 @@ function ApiResponse() {
                 setIsFetching(false); // This will be executed regardless of success or error
             });
     };
-
 
     return (
         <>
