@@ -20,7 +20,7 @@ export const performGetWithRetry = async (url) => {
             if (status === 401) {
                 // Session has expired (i.e Refresh token has also expired). 
                 // Redirect to login page
-                window.location.href = "/auth/login/start";
+                window.location.href = "/auth/login";
             }
             if (status !== 204) {
                 // we can't refresh token due to some error on app gateway side. 
