@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 import './App.css';
 import LandingPage from "./LandingPage";
 import ProtectedPage from "./ProtectedPage";
 import Navbar from "./Navbar";
 import ProtectedRoute from "./ProtectedRoute";
-
-const userInfoEndpoint = "/auth/userinfo";
+import Callback from "./Callback";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,31 +18,15 @@ function App() {
     checkIsLoggedIn();
   }, []);
 
-  const checkIsLoggedIn = async () => {
-    console.log("Checking logged in status");
-    fetch(userInfoEndpoint)
-      .then(response => {
-        if (response.status !== 200) {
-          throw new Error("API returned an error. Status: "
-            + response.status
-            + "("
-            + response.statusText
-            + ")");
-        }
-        return response.json();
-      })
-      .then(jsonData => {
-        setIsLoggedIn(true);
-        setUserInfo(jsonData);
-        setIsCheckingLoggedInState(false);
-        console.log(userInfo)
-        console.log("Checking logged in status complete");
-      })
-      .catch(error => {
-        setIsCheckingLoggedInState(false);
-        console.log("Error fetching logged in status");
-        console.log(error);
-      })
+  const checkIsLoggedIn = () => {
+    const encodedUserInfo = sessionStorage.getItem("userInfo");
+    if (encodedUserInfo !== null) {
+      var userInfo = JSON.parse(atob(encodedUserInfo));
+      setIsLoggedIn(true);
+      setUserInfo(userInfo);
+      console.log(userInfo);
+    };
+    setIsCheckingLoggedInState(false);
   };
 
   return (
@@ -50,6 +34,7 @@ function App() {
       <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<LandingPage userInfo={userInfo} />} />
+        <Route path="/login/callback" element={<Callback />} />
         <Route path="/protected"
           element={
             <ProtectedRoute isLoggedIn={isLoggedIn} isCheckingLoggedInState={isCheckingLoggedInState}>

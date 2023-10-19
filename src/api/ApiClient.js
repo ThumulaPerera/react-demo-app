@@ -8,6 +8,7 @@ class HttpError extends Error {
 export const performGetWithRetry = async (url) => {
 
     try {
+        // call api
         return await performGet(url);
     } catch (error) {
         if (error instanceof HttpError && error.status === 401) {
@@ -27,9 +28,6 @@ export const performGetWithRetry = async (url) => {
                 console.log ("Failed to refresh token. Status: " + status);
                 
                 // Hence just throw the 401 error from API Gateway. 
-                // TODO: think how to handle this better
-                //      maybe we can redirect to login page
-                //      maybe we can logout 
                 throw error;
             }
             return await performGet(url);
