@@ -1,7 +1,7 @@
 window.config = {
-    appName: 'App name',
+    appName: 'Test SPA',
     appDescription: 'App desc',
-    itemsEndpoint: '/rbln/dummy-item-service/api-e04/1.0.0/items',
-    apiPrefix: '/api',
+    itemsEndpoint: '/lshv/itemservice/api-e04/v1.0/items',
+    apiPrefix: '/choreo-apis',
     backgroundColor: 'rgba(218, 232, 252, 0.825)'
 };
