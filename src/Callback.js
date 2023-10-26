@@ -3,10 +3,11 @@ import Cookies from 'js-cookie';
 
 function Callback() {
   useEffect(() => {
-    const encodedUserInfo = Cookies.get('id_token')
+    const encodedUserInfo = Cookies.get('userinfo')
     if (encodedUserInfo) {
       sessionStorage.setItem("userInfo", encodedUserInfo);
     }
+    Cookies.remove('userinfo');
     window.location.href = "/";
   }, []);
 }
