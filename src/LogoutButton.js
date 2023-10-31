@@ -6,7 +6,7 @@ function LogoutButton() {
         // remove userinfo from session storage
         sessionStorage.clear();
         // redirect to oidc logout endpoint
-        window.location.href = `/auth/logout?auth_hint=${Cookies.get('auth_hint')}`
+        window.location.href = `/auth/logout?session_hint=${Cookies.get('session_hint')}`
     }
 
     return (
