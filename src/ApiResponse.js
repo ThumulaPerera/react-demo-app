@@ -1,6 +1,7 @@
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/joy/Button';
 import CircularProgress from '@mui/joy/CircularProgress';
+import JSONPretty from 'react-json-pretty';
 
 import React, { useState } from "react";
 import { performGetWithRetry } from './api/ApiClient';
@@ -13,13 +14,15 @@ function ApiResponse() {
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(null);
 
+    var JSONPrettyMon = require('react-json-pretty/dist/monikai');
+
     const fetchResponse = () => {
         setIsFetching(true);
         setError(null);
         performGetWithRetry(apiUrl)
             .then(response => {
                 // Handle the successful response
-                setResponse(JSON.parse(response));
+                setResponse(response);
             })
             .catch(error => {
                 // Handle the error
@@ -42,7 +45,7 @@ function ApiResponse() {
                 :
                 <>
                     <Button color="primary" variant="outlined" onClick={fetchResponse}>
-                        Try
+                        Try API Call
                     </Button>
                     {
                         response &&
@@ -51,7 +54,10 @@ function ApiResponse() {
                         </Button>
                     }
                     <br />
-                    <pre style={{ maxWidth: '100%', overflowX: 'auto' }}>{response}</pre>
+                    <JSONPretty 
+                        data={response} 
+                        theme={JSONPrettyMon} 
+                    />
                 </>
             }
             {

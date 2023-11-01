@@ -11,6 +11,7 @@ function LandingPage({ userInfo }) {
       <div className="App">
         <Typography level='h6'>Welcome !</Typography>
         <br/>
+        <br/>
         <Typography level='body1'>
           This sample demonstrates how to use Choreo Managed Authentication to secure a Single Page Web Application.
         </Typography>
@@ -25,10 +26,10 @@ function LandingPage({ userInfo }) {
     <div className="App">
       <Typography level='body1'>Welcome, {userInfo?.email} !</Typography>
       <br />
+      <br />
       <Typography level='body1'>
         Voila! You have successfully logged in to the application. You should now be able to see your email along with the welcome message.
       </Typography>
-      <br />
       <ApiResponse />
     </div>
   );
