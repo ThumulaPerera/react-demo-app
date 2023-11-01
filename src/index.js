@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { myconfig } from './public/myconfig'
 
-document.body.style = `background: ${myconfig.backgroundColor};`;
+document.body.style = `background: ${window.config.backgroundColor};`;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

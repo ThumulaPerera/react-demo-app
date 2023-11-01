@@ -5,9 +5,8 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import React, { useState, useEffect } from "react";
 import { performGetWithRetry } from './api/ApiClient';
 import './App.css';
-import { myconfig } from './public/myconfig'
 
-const apiUrl = myconfig.apiPrefix + myconfig.itemsEndpoint;
+const apiUrl = window.config.apiPrefix + window.config.itemsEndpoint;
 
 function ApiResponse() {
     const [response, setResponse] = useState([]);

@@ -1,9 +1,8 @@
 import Typography from '@mui/joy/Typography';
 import Divider from '@mui/joy/Divider';
-import { myconfig } from './public/myconfig'
 
-const appName = myconfig.appName;
-const appDescription = myconfig.appDescription;
+const appName = window.config.appName;
+const appDescription = window.config.appDescription;
 
 function LandingPage({ userInfo }) {
   let username = userInfo ? userInfo.email : "anonymous user";
