@@ -1,29 +1,15 @@
-import Button from '@mui/joy/Button';
-import ButtonGroup from '@mui/joy/ButtonGroup';
+import Typography from '@mui/joy/Typography';
 
 import LoginButton from './LoginButton';
 import LogoutButton from "./LogoutButton";
 
-const { Link } = require("react-router-dom");
+const appName = window.config.appName;
 
 const Navbar = ({ isLoggedIn }) => {
     return (
         <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "center", marginTop: "20px" }}>
-            <div style={{ textAlign: "left" }}>
-                <ButtonGroup variant="plain" color="primary">
-
-                    <Link to="/" >
-                        <Button>
-                            Home
-                        </Button>
-                    </Link>
-
-                    {isLoggedIn &&
-                        <Link to="/protected">
-                            <Button>Protected Page</Button>
-                        </Link>
-                    }
-                </ButtonGroup>
+            <div style={{ paddingLeft: "1em" }}>
+                <Typography level='h4'>{appName}</Typography>
             </div>
             <div style={{ marginLeft: "auto", paddingRight: "1em" }}>
                 {isLoggedIn ?

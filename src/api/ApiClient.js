@@ -30,6 +30,7 @@ export const performGetWithRetry = async (url) => {
                 // Hence just throw the 401 error from API Gateway. 
                 throw error;
             }
+            // Token refresh successful. Retry the API call.
             return await performGet(url);
         } else {
             throw error;

@@ -2,20 +2,16 @@ import Typography from '@mui/joy/Typography';
 import Button from '@mui/joy/Button';
 import CircularProgress from '@mui/joy/CircularProgress';
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { performGetWithRetry } from './api/ApiClient';
 import './App.css';
 
 const apiUrl = window.config.apiPrefix + window.config.itemsEndpoint;
 
 function ApiResponse() {
-    const [response, setResponse] = useState([]);
-    const [isFetching, setIsFetching] = useState(true);
+    const [response, setResponse] = useState(null);
+    const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(null);
-
-    useEffect(() => {
-        fetchResponse();
-    }, []);
 
     const fetchResponse = () => {
         setIsFetching(true);
@@ -23,32 +19,49 @@ function ApiResponse() {
         performGetWithRetry(apiUrl)
             .then(response => {
                 // Handle the successful response
-                setResponse(response);
+                setResponse(JSON.parse(response));
             })
             .catch(error => {
                 // Handle the error
-                setResponse([]);
+                setResponse(null);
                 setError(error);
             })
             .finally(() => {
-                setIsFetching(false); // This will be executed regardless of success or error
+                setIsFetching(false);
             });
     };
 
     return (
         <>
-            <Typography level='h6'>Response from API</Typography>
+            <Typography level='body1'>
+                Click the Try API Call button to try out an API call to the Items API.
+            </Typography>
             <br />
             {isFetching ?
                 <CircularProgress variant="plain" />
                 :
                 <>
-                    <pre style={{ maxWidth: '100%', overflowX: 'scroll' }}>{response}</pre>
+                    <Button color="primary" variant="outlined" onClick={fetchResponse}>
+                        Try
+                    </Button>
+                    {
+                        response &&
+                        <Button color="danger" variant="outlined" onClick={() => setResponse(null)}>
+                            Clear
+                        </Button>
+                    }
                     <br />
-                    <Button color="primary" variant="outlined" onClick={fetchResponse}>Refresh</Button>
+                    <pre style={{ maxWidth: '100%', overflowX: 'auto' }}>{response}</pre>
                 </>
             }
-            {error && <p className="error">{error.message}</p>}
+            {
+                error && 
+                <Typography  color="danger" variant="solid">
+                    API call failed:
+                    <br />
+                    {error.message}
+                </Typography>
+            }
         </>
     );
 }
