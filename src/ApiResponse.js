@@ -7,7 +7,10 @@ import React, { useState } from "react";
 import { performGetWithRetry } from './api/ApiClient';
 import './App.css';
 
-const apiUrl = window.config.apiPrefix + window.config.itemsEndpoint;
+const prefix = window?.config?.apiPrefix ? window?.config?.apiPrefix : '/choreo-apis';
+const suffix = window?.config?.itemsEndpoint ? window?.config?.itemsEndpoint : '';
+
+const apiUrl = prefix + suffix;
 
 function ApiResponse() {
     const [response, setResponse] = useState(null);

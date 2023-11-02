@@ -3,7 +3,7 @@ import Typography from '@mui/joy/Typography';
 import LoginButton from './LoginButton';
 import LogoutButton from "./LogoutButton";
 
-const appName = window.config.appName;
+const appName = window?.config?.appName ? window?.config?.appName : 'Managed Authentication';
 
 const Navbar = ({ isLoggedIn }) => {
     return (
