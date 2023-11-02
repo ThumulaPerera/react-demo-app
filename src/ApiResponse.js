@@ -24,11 +24,9 @@ function ApiResponse() {
         setError(null);
         performGetWithRetry(apiUrl)
             .then(response => {
-                // Handle the successful response
                 setResponse(response);
             })
             .catch(error => {
-                // Handle the error
                 setResponse(null);
                 setError(error);
             })

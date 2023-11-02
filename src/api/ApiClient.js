@@ -6,10 +6,22 @@ class HttpError extends Error {
 }
 
 export const performGetWithRetry = async (url) => {
+    return performRequestWithRetry(url, { method: "GET" });
+}
+
+export const performPostWithRetry = async (url, body) => {
+    return performRequestWithRetry(url, { method: "POST", body: body });
+}
+
+export const performDeleteWithRetry = async (url) => {
+    return performRequestWithRetry(url, { method: "DELETE" });
+}
+
+export const performRequestWithRetry = async (url, options) => {
 
     try {
         // call api
-        return await performGet(url);
+        return await performRequest(url, options);
     } catch (error) {
         if (error instanceof HttpError && error.status === 401) {
             // We got 401 Unauthorized response from API GW. Our access token maybe expired.
@@ -31,15 +43,15 @@ export const performGetWithRetry = async (url) => {
                 throw error;
             }
             // Token refresh successful. Retry the API call.
-            return await performGet(url);
+            return await performRequest(url, options);
         } else {
             throw error;
         }
     }
 }
 
-const performGet = (url) => {
-    return fetch(url)
+const performRequest = (url, options) => {
+    return fetch(url, options)
         .then(response => {
             const status = response.status;
             if (!response.ok) {
