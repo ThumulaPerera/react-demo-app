@@ -5,6 +5,7 @@ import './App.css';
 import LandingPage from "./LandingPage";
 import Navbar from "./Navbar";
 import Callback from "./Callback";
+import Error from "./Error";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,16 +27,22 @@ function App() {
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} />
+     
       <Routes>
-        <Route path="/" element={<LandingPage userInfo={userInfo} />} />
+        
+        <Route path="/" element={
+          <>
+             <Navbar isLoggedIn={isLoggedIn} />
+             <LandingPage userInfo={userInfo} />
+          </>
+        }/>
+
         <Route path="/login/callback" element={<Callback />} />
-        <Route
-          path="*"
-          element={
-            <Navigate to="/" />
-          }
-        />
+
+        <Route path="/error" element={<Error />} />
+        
+        <Route path="*" element={<Navigate to="/" />}/>
+      
       </Routes>
     </Router>
   )

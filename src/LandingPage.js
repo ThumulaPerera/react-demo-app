@@ -1,5 +1,4 @@
 import Typography from '@mui/joy/Typography';
-import Divider from '@mui/joy/Divider';
 
 import ApiResponse from './ApiResponse';
 
